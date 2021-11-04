@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Canonical, Ltd.
+ * Copyright (C) 2019-2021 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 #include "unix_terminal.h"
 
 #include <iostream>
+#include <termios.h>
 #include <unistd.h>
 
 namespace mp = multipass;
@@ -41,4 +42,17 @@ int multipass::UnixTerminal::cout_fd() const
 bool multipass::UnixTerminal::cout_is_live() const
 {
     return (isatty(cout_fd()) == 1);
+}
+
+void multipass::UnixTerminal::set_cin_echo(const bool enable)
+{
+    struct termios tty;
+    tcgetattr(cin_fd(), &tty);
+
+    if (!enable)
+        tty.c_lflag &= ~ECHO;
+    else
+        tty.c_lflag |= ECHO;
+
+    tcsetattr(cin_fd(), TCSANOW, &tty);
 }
