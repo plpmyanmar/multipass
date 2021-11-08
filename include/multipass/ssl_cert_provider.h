@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Canonical, Ltd.
+ * Copyright (C) 2018-2021 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,10 +21,18 @@
 #include <multipass/cert_provider.h>
 #include <multipass/path.h>
 
+#include <QString>
+
 #include <string>
 
 namespace multipass
 {
+const QString client_cert_prefix{"multipass_cert"};
+const QString cert_file_suffix{".pem"};
+const QString key_file_suffix{"_key.pem"};
+const QString client_cert_file{client_cert_prefix + cert_file_suffix};
+const QString client_key_file{client_cert_prefix + key_file_suffix};
+
 class SSLCertProvider : public CertProvider
 {
 public:

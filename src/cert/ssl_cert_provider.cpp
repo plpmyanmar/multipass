@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Canonical, Ltd.
+ * Copyright (C) 2018-2021 Canonical, Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -194,10 +194,10 @@ private:
 
 mp::SSLCertProvider::KeyCertificatePair make_cert_key_pair(const QDir& cert_dir, const std::string& server_name)
 {
-    QString prefix = server_name.empty() ? "multipass_cert" : QString::fromStdString(server_name);
+    QString prefix = server_name.empty() ? mp::client_cert_prefix : QString::fromStdString(server_name);
 
-    auto priv_key_path = cert_dir.filePath(prefix + "_key.pem");
-    auto cert_path = cert_dir.filePath(prefix + ".pem");
+    auto priv_key_path = cert_dir.filePath(prefix + mp::key_file_suffix);
+    auto cert_path = cert_dir.filePath(prefix + mp::cert_file_suffix);
 
     if (QFile::exists(priv_key_path) && QFile::exists(cert_path))
     {
