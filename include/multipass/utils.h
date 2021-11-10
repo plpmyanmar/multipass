@@ -22,6 +22,7 @@
 #include <multipass/path.h>
 #include <multipass/singleton.h>
 #include <multipass/ssh/ssh_session.h>
+#include <multipass/standard_paths.h>
 #include <multipass/virtual_machine.h>
 
 #include <yaml-cpp/yaml.h>
@@ -47,6 +48,10 @@ namespace multipass
 // Fwd decl
 class SSHKeyProvider;
 class VirtualMachine;
+
+const QString common_client_cert_dir{"/multipass-client-certificate"};
+const QString gui_client_cert_dir{"/multipass-gui/client-certificate"};
+const QString cli_client_cert_dir{"/multipass/client-certificate"};
 
 namespace utils
 {
@@ -149,6 +154,11 @@ public:
 
     // system info helpers
     virtual std::string get_kernel_version() const;
+
+    // client cert helpers
+    virtual bool client_certs_exist(const QString& cert_dir_path) const;
+    virtual void copy_client_certs_to_common_dir(const QString& cert_dir_path,
+                                                 const QString& common_cert_dir_path) const;
 };
 } // namespace multipass
 
